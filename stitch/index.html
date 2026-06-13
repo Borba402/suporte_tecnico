@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Dashboard de Suporte Técnico</title>
-  <meta name="description" content="Dashboard avançado para gestão e monitoramento em tempo real de chamados de suporte técnico em ambientes corporativos." />
-  
-  <!-- Fontes do Google e Material Symbols -->
+  <title>Suporte Técnico — Portal Corporativo</title>
+  <meta name="description" content="Portal corporativo de suporte técnico com gerenciamento de chamados em tempo real, controle de acesso por perfil (RBAC) e painel administrativo completo." />
+
+  <!-- Fontes do Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
   
   <!-- Arquivo de Estilos principal -->
@@ -18,267 +18,616 @@
 </head>
 <body>
 
-  <!-- NavigationDrawer (Exibido no Desktop) -->
-  <nav class="nav-drawer" id="navDrawer" aria-label="Menu de Navegação Principal">
-    <!-- Header com dados do analista -->
-    <div class="nav-drawer-header">
-      <div class="avatar" aria-hidden="true">
-        <span class="material-symbols-outlined">person</span>
-      </div>
-      <div class="user-info">
-        <span class="name">Analista de Suporte</span>
-        <div class="status-indicator">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span class="text-label-sm font-bold text-on-surface-variant">Online • Nível 2</span>
+  <!-- ============================================================
+       TELA DE LOGIN E CADASTRO (GLASSMORPHISM PREMIUM)
+  ============================================================ -->
+  <section class="auth-section" id="authSection">
+    
+    <!-- Partículas / Orbs de fundo decorativas -->
+    <div class="auth-bg-orb orb-1"></div>
+    <div class="auth-bg-orb orb-2"></div>
+    <div class="auth-bg-orb orb-3"></div>
+
+    <div class="auth-wrapper">
+      <!-- Painel Esquerdo — Branding -->
+      <div class="auth-branding">
+        <div class="auth-brand-logo">
+          <span class="material-symbols-outlined">support_agent</span>
         </div>
+        <h1>Suporte Técnico</h1>
+        <p class="auth-brand-tagline">Portal corporativo centralizado para gestão eficiente de chamados técnicos em tempo real.</p>
+        <div class="auth-brand-features">
+          <div class="auth-feature-item">
+            <span class="material-symbols-outlined">verified_user</span>
+            <span>Controle de acesso por perfil (RBAC)</span>
+          </div>
+          <div class="auth-feature-item">
+            <span class="material-symbols-outlined">bolt</span>
+            <span>Atualização em tempo real via Firebase</span>
+          </div>
+          <div class="auth-feature-item">
+            <span class="material-symbols-outlined">insights</span>
+            <span>KPIs e relatórios de desempenho</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel Direito — Formulário -->
+      <div class="auth-container" id="authContainer">
+        <div class="auth-header">
+          <div class="auth-header-icon">
+            <span class="material-symbols-outlined">lock</span>
+          </div>
+          <h2 id="authTitle">Bem-vindo de volta</h2>
+          <p id="authSubtitle">Entre com suas credenciais para acessar o portal</p>
+        </div>
+
+        <!-- Abas de alternância -->
+        <div class="auth-tabs" role="tablist">
+          <button class="auth-tab-btn active" id="tabLoginBtn" role="tab" aria-selected="true" aria-controls="loginForm">
+            <span class="material-symbols-outlined">login</span> Entrar
+          </button>
+          <button class="auth-tab-btn" id="tabRegisterBtn" role="tab" aria-selected="false" aria-controls="registerForm">
+            <span class="material-symbols-outlined">person_add</span> Cadastrar
+          </button>
+        </div>
+
+        <!-- Formulário de Login -->
+        <form id="loginForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">
+              <span class="material-symbols-outlined form-icon">alternate_email</span>
+              E-mail corporativo
+            </label>
+            <input class="form-input" type="email" id="loginEmail" placeholder="nome@empresa.com" autocomplete="email" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">
+              <span class="material-symbols-outlined form-icon">key</span>
+              Senha
+            </label>
+            <div class="input-password-wrapper">
+              <input class="form-input" type="password" id="loginPassword" placeholder="Sua senha" autocomplete="current-password" required />
+              <button type="button" class="btn-toggle-pass" id="toggleLoginPass" aria-label="Mostrar/esconder senha">
+                <span class="material-symbols-outlined">visibility</span>
+              </button>
+            </div>
+          </div>
+          <div class="auth-help-row">
+            <a href="#" class="auth-link" id="forgotPasswordLink">Esqueci minha senha</a>
+          </div>
+          <button class="btn-auth-submit" type="submit" id="btnLoginSubmit">
+            <span class="btn-text">Entrar no Portal</span>
+            <span class="btn-loader hidden">
+              <span class="spinner"></span> Entrando...
+            </span>
+          </button>
+        </form>
+
+        <!-- Formulário de Cadastro -->
+        <form id="registerForm" class="auth-form hidden" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="registerName">
+              <span class="material-symbols-outlined form-icon">badge</span>
+              Nome Completo
+            </label>
+            <input class="form-input" type="text" id="registerName" placeholder="Ex: Ana Souza" autocomplete="name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="registerEmail">
+              <span class="material-symbols-outlined form-icon">alternate_email</span>
+              E-mail corporativo
+            </label>
+            <input class="form-input" type="email" id="registerEmail" placeholder="nome@empresa.com" autocomplete="email" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="registerPassword">
+              <span class="material-symbols-outlined form-icon">key</span>
+              Senha <span class="form-hint">(mín. 6 caracteres)</span>
+            </label>
+            <div class="input-password-wrapper">
+              <input class="form-input" type="password" id="registerPassword" placeholder="Escolha uma senha forte" autocomplete="new-password" minlength="6" required />
+              <button type="button" class="btn-toggle-pass" id="toggleRegisterPass" aria-label="Mostrar/esconder senha">
+                <span class="material-symbols-outlined">visibility</span>
+              </button>
+            </div>
+            <div class="password-strength" id="passwordStrength">
+              <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+              <span class="strength-label" id="strengthLabel"></span>
+            </div>
+          </div>
+          <div class="auth-terms">
+            <input type="checkbox" id="termsCheck" />
+            <label for="termsCheck">Concordo que meu perfil será criado como <strong>Cliente</strong> (o Admin pode alterar depois)</label>
+          </div>
+          <button class="btn-auth-submit" type="submit" id="btnRegisterSubmit">
+            <span class="btn-text">Criar Conta</span>
+            <span class="btn-loader hidden">
+              <span class="spinner"></span> Criando conta...
+            </span>
+          </button>
+        </form>
+
+        <p class="auth-footer-text">Acesso restrito a colaboradores autorizados</p>
       </div>
     </div>
-    
-    <!-- Links de Navegação -->
-    <ul class="nav-links">
-      <li>
-        <a class="nav-link active" href="#" id="nav-dashboard">
-          <span class="material-symbols-outlined">dashboard</span>
-          <span class="text-body-md">Painel Geral</span>
-        </a>
-      </li>
-      <li>
-        <a class="nav-link" href="#" id="nav-tickets">
-          <span class="material-symbols-outlined">confirmation_number</span>
-          <span class="text-body-md">Meus Chamados</span>
-        </a>
-      </li>
-      <li>
-        <a class="nav-link" href="#" id="nav-reports">
-          <span class="material-symbols-outlined">analytics</span>
-          <span class="text-body-md">Relatórios</span>
-        </a>
-      </li>
-      <li>
-        <a class="nav-link" href="#" id="nav-settings">
-          <span class="material-symbols-outlined">settings</span>
-          <span class="text-body-md">Configurações</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  </section>
 
-  <!-- Canvas Principal de Conteúdo -->
-  <main class="main-canvas">
-    
-    <!-- TopAppBar -->
-    <header class="top-app-bar" id="mainHeader">
-      <div class="top-app-bar-left">
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu lateral">
-          <span class="material-symbols-outlined">menu</span>
-        </button>
-        <h1 class="text-title-lg text-on-surface">Suporte Técnico</h1>
+  <!-- ============================================================
+       CONTAINER PRINCIPAL DO APP (Oculto antes do login)
+  ============================================================ -->
+  <div class="app-container hidden" id="appContainer">
+
+    <!-- Sidebar / NavigationDrawer -->
+    <nav class="nav-drawer" id="navDrawer" aria-label="Menu de Navegação Principal">
+      
+      <!-- Card de Perfil do Usuário -->
+      <div class="nav-profile-card">
+        <div class="nav-profile-avatar" id="navAvatar">
+          <span class="material-symbols-outlined">person</span>
+        </div>
+        <div class="nav-profile-info">
+          <span class="nav-profile-name" id="userDisplayName">Carregando...</span>
+          <span class="nav-profile-role" id="userDisplayRole">
+            <span class="role-dot"></span>
+            <span id="roleLabel">Online</span>
+          </span>
+        </div>
+        <div class="nav-profile-badge" id="navRoleBadge"></div>
       </div>
       
-      <div class="top-app-bar-right">
-        <!-- Alternador de Tema Escuro/Claro -->
-        <button class="theme-toggle-btn" id="themeToggle" aria-label="Alternar tema de cores">
-          <span class="material-symbols-outlined">dark_mode</span>
-        </button>
-        <!-- Botão Novo Chamado (Desktop) -->
-        <button class="btn-primary open-modal-btn" id="btnNewTicketDesktop">
-          <span class="material-symbols-outlined">add</span>
-          Novo Chamado
-        </button>
+      <!-- Links de Navegação -->
+      <div class="nav-section">
+        <span class="nav-section-label">Menu Principal</span>
+        <ul class="nav-links">
+          <li>
+            <a class="nav-link active" href="#" id="nav-dashboard">
+              <span class="material-symbols-outlined nav-icon">dashboard</span>
+              <span class="nav-label">Painel Geral</span>
+              <span class="nav-badge" id="navBadgePendentes" style="display:none;"></span>
+            </a>
+          </li>
+          <li class="tecnico-admin-only hidden">
+            <a class="nav-link" href="#" id="nav-meus-chamados">
+              <span class="material-symbols-outlined nav-icon">assignment_ind</span>
+              <span class="nav-label">Meus Chamados</span>
+            </a>
+          </li>
+          <li class="admin-only hidden">
+            <a class="nav-link" href="#" id="nav-users">
+              <span class="material-symbols-outlined nav-icon">manage_accounts</span>
+              <span class="nav-label">Gerenciar Usuários</span>
+            </a>
+          </li>
+        </ul>
       </div>
-    </header>
 
-    <!-- Conteúdo do Dashboard -->
-    <div class="dashboard-content">
+      <div class="nav-section nav-section-bottom">
+        <ul class="nav-links">
+          <li>
+            <a class="nav-link nav-link-danger" href="#" id="nav-logout">
+              <span class="material-symbols-outlined nav-icon">logout</span>
+              <span class="nav-label">Sair do Portal</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Canvas Principal de Conteúdo -->
+    <main class="main-canvas">
       
-      <!-- Botão de Ação no Mobile -->
-      <div class="mobile-action-bar">
-        <button class="btn-primary open-modal-btn" id="btnNewTicketMobile">
-          <span class="material-symbols-outlined">add</span>
-          Novo Chamado
-        </button>
-      </div>
-
-      <!-- Grid de Cartões de KPI -->
-      <section class="kpi-grid" aria-label="Indicadores de Desempenho">
-        <!-- Card 1: Abertos -->
-        <div class="kpi-card opened" id="kpi-card-opened">
-          <div class="kpi-card-header">
-            <span class="kpi-card-title">Chamados Abertos</span>
-            <div class="kpi-icon-badge" aria-hidden="true">
-              <span class="material-symbols-outlined">warning</span>
-            </div>
+      <!-- TopAppBar -->
+      <header class="top-app-bar" id="mainHeader">
+        <div class="top-app-bar-left">
+          <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu lateral">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <div class="top-bar-brand">
+            <span class="material-symbols-outlined top-bar-icon">support_agent</span>
+            <h1 class="text-title-lg text-on-surface" id="pageTitle">Painel Geral</h1>
           </div>
-          <div class="kpi-value" id="kpi-abertos">0</div>
-          <div class="kpi-trend up">
-            <span class="material-symbols-outlined text-sm">trending_up</span> +12% vs ontem
-          </div>
-        </div>
-
-        <!-- Card 2: Em Atendimento -->
-        <div class="kpi-card in-progress" id="kpi-card-progress">
-          <div class="kpi-card-header">
-            <span class="kpi-card-title">Em Atendimento</span>
-            <div class="kpi-icon-badge" aria-hidden="true">
-              <span class="material-symbols-outlined">engineering</span>
-            </div>
-          </div>
-          <div class="kpi-value" id="kpi-atendimento">0</div>
-          <div class="kpi-trend neutral">Dentro do SLA</div>
-        </div>
-
-        <!-- Card 3: Aguardando -->
-        <div class="kpi-card waiting" id="kpi-card-waiting">
-          <div class="kpi-card-header">
-            <span class="kpi-card-title">Aguardando Peças</span>
-            <div class="kpi-icon-badge" aria-hidden="true">
-              <span class="material-symbols-outlined">inventory_2</span>
-            </div>
-          </div>
-          <div class="kpi-value" id="kpi-aguardando">0</div>
-          <div class="kpi-trend neutral">
-            <span class="material-symbols-outlined text-sm">schedule</span> Retenção média: 3 dias
-          </div>
-        </div>
-
-        <!-- Card 4: Concluídos -->
-        <div class="kpi-card completed" id="kpi-card-completed">
-          <div class="kpi-card-header">
-            <span class="kpi-card-title">Concluídos Hoje</span>
-            <div class="kpi-icon-badge" aria-hidden="true">
-              <span class="material-symbols-outlined">check_circle</span>
-            </div>
-          </div>
-          <div class="kpi-value" id="kpi-concluidos">0</div>
-          <div class="kpi-trend down">
-            <span class="material-symbols-outlined text-sm">trending_up</span> Excelente performance
-          </div>
-        </div>
-      </section>
-
-      <!-- Abas de Filtros de Categoria -->
-      <section class="filter-tabs-wrapper" aria-label="Filtros de chamados por setor">
-        <button class="filter-btn active" data-category="all" id="filter-all">
-          <span class="material-symbols-outlined">all_inclusive</span> Todos
-        </button>
-        <button class="filter-btn" data-category="TI" id="filter-ti">
-          <span class="material-symbols-outlined">computer</span> TI
-        </button>
-        <button class="filter-btn" data-category="Elétrica" id="filter-eletrica">
-          <span class="material-symbols-outlined">bolt</span> Elétrica
-        </button>
-        <button class="filter-btn" data-category="Predial" id="filter-predial">
-          <span class="material-symbols-outlined">domain</span> Predial
-        </button>
-        <button class="filter-btn" data-category="Segurança" id="filter-seguranca">
-          <span class="material-symbols-outlined">security</span> Segurança
-        </button>
-        <button class="filter-btn" data-category="Telecom" id="filter-telecom">
-          <span class="material-symbols-outlined">router</span> Telecom
-        </button>
-      </section>
-
-      <!-- Cartão / Container com a Tabela de Chamados -->
-      <section class="tickets-card" aria-label="Chamados Recentes">
-        <div class="tickets-card-header">
-          <h2>Chamados Recentes</h2>
-          <button class="view-all-btn" id="btnViewAll">Ver Todos</button>
         </div>
         
-        <div class="table-responsive">
-          <table class="tickets-table">
-            <thead>
-              <tr>
-                <th scope="col">ID / Título</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Prioridade</th>
-                <th scope="col">Status</th>
-                <th scope="col" style="text-align: right;">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="ticketsBody">
-              <!-- Renderizado dinamicamente pelo JavaScript (app.js) -->
-            </tbody>
-          </table>
+        <div class="top-app-bar-right">
+          <!-- Botão de Recarregar -->
+          <button class="icon-btn" id="btnRefresh" aria-label="Atualizar dados" title="Atualizar">
+            <span class="material-symbols-outlined">refresh</span>
+          </button>
+          <!-- Alternador de Tema Escuro/Claro -->
+          <button class="icon-btn" id="themeToggle" aria-label="Alternar tema de cores" title="Alterar tema">
+            <span class="material-symbols-outlined">dark_mode</span>
+          </button>
+          <!-- Botão Novo Chamado (Desktop) -->
+          <button class="btn-primary open-modal-btn" id="btnNewTicketDesktop">
+            <span class="material-symbols-outlined">add_circle</span>
+            Novo Chamado
+          </button>
         </div>
-      </section>
-
-    </div>
-  </main>
-
-  <!-- BottomNavBar (Menu inferior exibido apenas no Mobile) -->
-  <nav class="bottom-nav-bar" aria-label="Menu de Navegação Rápida Mobile">
-    <a class="bottom-nav-link active" href="#" id="mobile-nav-home">
-      <span class="material-symbols-outlined">home</span>
-      <span>Início</span>
-    </a>
-    <a class="bottom-nav-link" href="#" id="mobile-nav-tickets">
-      <span class="material-symbols-outlined">list_alt</span>
-      <span>Chamados</span>
-    </a>
-    <a class="bottom-nav-link" href="#" id="mobile-nav-reports">
-      <span class="material-symbols-outlined">bar_chart</span>
-      <span>Relatórios</span>
-    </a>
-    <a class="bottom-nav-link" href="#" id="mobile-nav-settings">
-      <span class="material-symbols-outlined">settings</span>
-      <span>Ajustes</span>
-    </a>
-  </nav>
-
-  <!-- Modal para Criação de Novo Chamado -->
-  <div class="modal-overlay" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-container">
-      <header class="modal-header">
-        <h3 id="modalTitle">Novo Chamado de Suporte</h3>
-        <button class="modal-close" id="closeModalBtn" aria-label="Fechar modal">
-          <span class="material-symbols-outlined">close</span>
-        </button>
       </header>
-      
-      <form id="ticketForm">
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label" for="ticketTitle">Título do Problema</label>
-            <input class="form-input" type="text" id="ticketTitle" placeholder="Ex: Erro ao conectar na VPN" required />
-          </div>
 
-          <div class="form-group">
-            <label class="form-label" for="ticketCategory">Categoria</label>
-            <select class="form-select" id="ticketCategory">
-              <option value="TI">TI</option>
-              <option value="Elétrica">Elétrica</option>
-              <option value="Predial">Predial</option>
-              <option value="Segurança">Segurança</option>
-              <option value="Telecom">Telecom</option>
-            </select>
-          </div>
+      <!-- ======================================================
+           SEÇÃO 1: DASHBOARD GERAL DE CHAMADOS
+      ====================================================== -->
+      <div class="dashboard-content" id="dashboardContent">
 
-          <div class="form-group">
-            <label class="form-label" for="ticketPriority">Prioridade</label>
-            <select class="form-select" id="ticketPriority">
-              <option value="low">Baixa</option>
-              <option value="medium">Média</option>
-              <option value="high">Alta</option>
-              <option value="critical">Crítica</option>
-            </select>
+        <!-- Barra de Boas-Vindas Contextual -->
+        <div class="welcome-banner" id="welcomeBanner">
+          <div class="welcome-text">
+            <h2 id="welcomeTitle">Olá, usuário! 👋</h2>
+            <p id="welcomeSubtitle">Carregando painel...</p>
           </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="ticketDesc">Descrição adicional (Opcional)</label>
-            <textarea class="form-textarea" id="ticketDesc" placeholder="Descreva brevemente os sintomas do problema..."></textarea>
+          <div class="welcome-actions">
+            <button class="btn-primary open-modal-btn" id="btnNewTicketMobile">
+              <span class="material-symbols-outlined">add</span>
+              Novo Chamado
+            </button>
           </div>
         </div>
 
-        <footer class="modal-footer">
-          <button class="btn-secondary" type="button" onclick="document.getElementById('closeModalBtn').click()">Cancelar</button>
-          <button class="btn-primary" type="submit">Salvar Chamado</button>
-        </footer>
-      </form>
+        <!-- Grid de Cartões de KPI -->
+        <section class="kpi-grid" id="kpiGrid" aria-label="Indicadores de Desempenho">
+          <div class="kpi-card opened" id="kpi-card-opened">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Chamados Abertos</span>
+              <div class="kpi-icon-badge" aria-hidden="true">
+                <span class="material-symbols-outlined">inbox</span>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-abertos">—</div>
+            <div class="kpi-trend up">
+              <span class="material-symbols-outlined">fiber_manual_record</span> Aguardando atendimento
+            </div>
+          </div>
+
+          <div class="kpi-card in-progress" id="kpi-card-progress">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Em Atendimento</span>
+              <div class="kpi-icon-badge" aria-hidden="true">
+                <span class="material-symbols-outlined">engineering</span>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-atendimento">—</div>
+            <div class="kpi-trend neutral">
+              <span class="material-symbols-outlined">verified</span> Dentro do SLA
+            </div>
+          </div>
+
+          <div class="kpi-card waiting" id="kpi-card-waiting">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Aguardando</span>
+              <div class="kpi-icon-badge" aria-hidden="true">
+                <span class="material-symbols-outlined">hourglass_top</span>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-aguardando">—</div>
+            <div class="kpi-trend neutral">
+              <span class="material-symbols-outlined">schedule</span> Retenção: ~3 dias
+            </div>
+          </div>
+
+          <div class="kpi-card completed" id="kpi-card-completed">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Concluídos</span>
+              <div class="kpi-icon-badge" aria-hidden="true">
+                <span class="material-symbols-outlined">task_alt</span>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-concluidos">—</div>
+            <div class="kpi-trend down">
+              <span class="material-symbols-outlined">star</span> Excelente performance
+            </div>
+          </div>
+        </section>
+
+        <!-- Filtros de Categoria -->
+        <div class="section-header-row">
+          <h2 class="section-title" id="ticketsTableTitle">Chamados Recentes</h2>
+          <section class="filter-tabs-wrapper" id="filterTabsWrapper" aria-label="Filtros por categoria">
+            <button class="filter-btn active" data-category="all" id="filter-all">
+              <span class="material-symbols-outlined">all_inclusive</span> Todos
+            </button>
+            <button class="filter-btn" data-category="TI" id="filter-ti">
+              <span class="material-symbols-outlined">computer</span> TI
+            </button>
+            <button class="filter-btn" data-category="Elétrica" id="filter-eletrica">
+              <span class="material-symbols-outlined">bolt</span> Elétrica
+            </button>
+            <button class="filter-btn" data-category="Predial" id="filter-predial">
+              <span class="material-symbols-outlined">domain</span> Predial
+            </button>
+            <button class="filter-btn" data-category="Segurança" id="filter-seguranca">
+              <span class="material-symbols-outlined">security</span> Segurança
+            </button>
+            <button class="filter-btn" data-category="Telecom" id="filter-telecom">
+              <span class="material-symbols-outlined">router</span> Telecom
+            </button>
+          </section>
+        </div>
+
+        <!-- Tabela de Chamados -->
+        <section class="tickets-card" aria-label="Chamados Recentes">
+          <div class="table-responsive">
+            <table class="tickets-table">
+              <thead>
+                <tr>
+                  <th scope="col">ID / Título</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Prioridade</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" class="col-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="ticketsBody">
+                <!-- Renderizado dinamicamente -->
+              </tbody>
+            </table>
+          </div>
+          <div class="table-empty-state hidden" id="tableEmptyState">
+            <span class="material-symbols-outlined empty-icon">inbox</span>
+            <h3>Nenhum chamado encontrado</h3>
+            <p>Não há chamados nesta categoria ou nenhum chamado foi aberto ainda.</p>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ======================================================
+           SEÇÃO 2: PAINEL ADMINISTRATIVO DE USUÁRIOS
+      ====================================================== -->
+      <div class="dashboard-content hidden" id="adminUsersContent">
+        
+        <!-- Header da Seção Admin -->
+        <div class="admin-section-header">
+          <div class="admin-header-text">
+            <h2>Gerenciar Usuários & Permissões</h2>
+            <p>Autorize e gerencie os perfis de acesso (RBAC) dos colaboradores do sistema.</p>
+          </div>
+          <div class="admin-header-stats" id="adminHeaderStats">
+            <div class="admin-stat-pill">
+              <span class="material-symbols-outlined">group</span>
+              <span id="totalUsersCount">0 usuários</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards de Resumo de Roles -->
+        <div class="role-summary-grid" id="roleSummaryGrid">
+          <div class="role-summary-card admin-card">
+            <div class="role-summary-icon">
+              <span class="material-symbols-outlined">admin_panel_settings</span>
+            </div>
+            <div class="role-summary-info">
+              <span class="role-summary-count" id="adminCount">0</span>
+              <span class="role-summary-label">Administradores</span>
+            </div>
+          </div>
+          <div class="role-summary-card tecnico-card">
+            <div class="role-summary-icon">
+              <span class="material-symbols-outlined">engineering</span>
+            </div>
+            <div class="role-summary-info">
+              <span class="role-summary-count" id="tecnicoCount">0</span>
+              <span class="role-summary-label">Técnicos</span>
+            </div>
+          </div>
+          <div class="role-summary-card cliente-card">
+            <div class="role-summary-icon">
+              <span class="material-symbols-outlined">person</span>
+            </div>
+            <div class="role-summary-info">
+              <span class="role-summary-count" id="clienteCount">0</span>
+              <span class="role-summary-label">Clientes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Usuários -->
+        <section class="tickets-card" aria-label="Lista de Usuários">
+          <div class="tickets-card-header">
+            <h3>Lista de Usuários</h3>
+            <div class="search-wrapper">
+              <span class="material-symbols-outlined search-icon">search</span>
+              <input type="text" class="search-input" id="userSearchInput" placeholder="Buscar por nome ou e-mail..." />
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="tickets-table">
+              <thead>
+                <tr>
+                  <th scope="col">Usuário</th>
+                  <th scope="col">E-mail</th>
+                  <th scope="col">Perfil Atual</th>
+                  <th scope="col" class="col-actions">Alterar Acesso</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <!-- Renderizado dinamicamente -->
+              </tbody>
+            </table>
+          </div>
+          <div class="table-empty-state hidden" id="usersEmptyState">
+            <span class="material-symbols-outlined empty-icon">group_off</span>
+            <h3>Nenhum usuário encontrado</h3>
+            <p>Nenhum usuário corresponde à busca realizada.</p>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ======================================================
+           SEÇÃO 3: PAINEL DO TÉCNICO (Meus Chamados Atribuídos)
+      ====================================================== -->
+      <div class="dashboard-content hidden" id="tecnicoContent">
+        
+        <div class="admin-section-header">
+          <div class="admin-header-text">
+            <h2>Meus Chamados Atribuídos</h2>
+            <p>Chamados que estão sob sua responsabilidade ou aguardando atribuição.</p>
+          </div>
+        </div>
+
+        <!-- Cards de Status do Técnico -->
+        <div class="tecnico-stats-grid" id="tecnicoStatsGrid">
+          <div class="tecnico-stat-card">
+            <span class="material-symbols-outlined">pending_actions</span>
+            <div>
+              <span class="tecnico-stat-num" id="tecnicoStatPendentes">0</span>
+              <span class="tecnico-stat-label">Pendentes</span>
+            </div>
+          </div>
+          <div class="tecnico-stat-card active-card">
+            <span class="material-symbols-outlined">build_circle</span>
+            <div>
+              <span class="tecnico-stat-num" id="tecnicoStatAtivos">0</span>
+              <span class="tecnico-stat-label">Em Progresso</span>
+            </div>
+          </div>
+          <div class="tecnico-stat-card success-card">
+            <span class="material-symbols-outlined">check_circle</span>
+            <div>
+              <span class="tecnico-stat-num" id="tecnicoStatConcluidos">0</span>
+              <span class="tecnico-stat-label">Concluídos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Chamados do Técnico -->
+        <section class="tickets-card" aria-label="Meus chamados">
+          <div class="tickets-card-header">
+            <h3>Fila de Chamados</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="tickets-table">
+              <thead>
+                <tr>
+                  <th scope="col">ID / Título</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Prioridade</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" class="col-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tecnicoTicketsBody">
+                <!-- Renderizado dinamicamente -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+
+    <!-- Bottom Navigation Bar (Mobile) -->
+    <nav class="bottom-nav-bar" aria-label="Navegação Mobile">
+      <a class="bottom-nav-link active" href="#" id="mobile-nav-home">
+        <span class="material-symbols-outlined">home</span>
+        <span>Início</span>
+      </a>
+      <a class="bottom-nav-link tecnico-admin-only hidden" href="#" id="mobile-nav-meus">
+        <span class="material-symbols-outlined">assignment_ind</span>
+        <span>Meus</span>
+      </a>
+      <a class="bottom-nav-link admin-only hidden" href="#" id="mobile-nav-users">
+        <span class="material-symbols-outlined">group</span>
+        <span>Usuários</span>
+      </a>
+      <a class="bottom-nav-link" href="#" id="mobile-nav-logout">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Sair</span>
+      </a>
+    </nav>
+
+    <!-- ======================================================
+         MODAL — NOVO CHAMADO
+    ====================================================== -->
+    <div class="modal-overlay" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-container">
+        <header class="modal-header">
+          <div class="modal-title-group">
+            <span class="material-symbols-outlined modal-header-icon">add_circle</span>
+            <h3 id="modalTitle">Novo Chamado de Suporte</h3>
+          </div>
+          <button class="modal-close" id="closeModalBtn" aria-label="Fechar modal">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </header>
+        
+        <form id="ticketForm">
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="form-label" for="ticketTitle">Título do Problema <span class="required-mark">*</span></label>
+              <input class="form-input" type="text" id="ticketTitle" placeholder="Ex: Erro ao conectar na VPN" required />
+            </div>
+
+            <div class="modal-form-row">
+              <div class="form-group">
+                <label class="form-label" for="ticketCategory">Categoria</label>
+                <select class="form-select" id="ticketCategory">
+                  <option value="TI">💻 TI</option>
+                  <option value="Elétrica">⚡ Elétrica</option>
+                  <option value="Predial">🏢 Predial</option>
+                  <option value="Segurança">🔒 Segurança</option>
+                  <option value="Telecom">📡 Telecom</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ticketPriority">Prioridade</label>
+                <select class="form-select" id="ticketPriority">
+                  <option value="Baixa">🟢 Baixa</option>
+                  <option value="Média" selected>🟡 Média</option>
+                  <option value="Alta">🟠 Alta</option>
+                  <option value="Crítica">🔴 Crítica</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ticketDesc">Descrição adicional <span class="form-hint">(Opcional)</span></label>
+              <textarea class="form-textarea" id="ticketDesc" placeholder="Descreva brevemente os sintomas, ambiente e passos para reproduzir o problema..."></textarea>
+            </div>
+          </div>
+
+          <footer class="modal-footer">
+            <button class="btn-secondary" type="button" onclick="document.getElementById('closeModalBtn').click()">Cancelar</button>
+            <button class="btn-primary" type="submit" id="btnSaveTicket">
+              <span class="material-symbols-outlined">send</span>
+              Abrir Chamado
+            </button>
+          </footer>
+        </form>
+      </div>
     </div>
+
+    <!-- ======================================================
+         MODAL — DETALHES DO CHAMADO
+    ====================================================== -->
+    <div class="modal-overlay" id="ticketDetailModal" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
+      <div class="modal-container modal-detail-container">
+        <header class="modal-header">
+          <div class="modal-title-group">
+            <span class="material-symbols-outlined modal-header-icon">receipt_long</span>
+            <h3 id="detailModalTitle">Detalhes do Chamado</h3>
+          </div>
+          <button class="modal-close" id="closeDetailModalBtn" aria-label="Fechar modal de detalhes">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </header>
+        <div class="modal-body" id="ticketDetailBody">
+          <!-- Conteúdo renderizado dinamicamente -->
+        </div>
+      </div>
+    </div>
+
   </div>
 
+  <!-- ======================================================
+       SISTEMA DE TOAST NOTIFICATIONS
+  ====================================================== -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
   <!-- Script da aplicação -->
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

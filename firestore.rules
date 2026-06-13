@@ -1,0 +1,111 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------
+    // FUNÇÕES AUXILIARES DE SEGURANÇA
+    // -------------------------------------------------------------
+    
+    // Verifica se o usuário está autenticado
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Obtém o documento do usuário atual na coleção 'usuarios'
+    function getUserDoc() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid));
+    }
+
+    // Obtém o papel (role) do usuário atual
+    function getUserRole() {
+      return getUserDoc().data.role;
+    }
+
+    // Valida se o usuário atual é um ADMINISTRADOR
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) && getUserRole() == 'ADMIN';
+    }
+
+    // Valida se o usuário atual é um TÉCNICO
+    function isTecnico() {
+      return isSignedIn() && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) && getUserRole() == 'TECNICO';
+    }
+
+    // Valida se o usuário atual é um CLIENTE
+    function isCliente() {
+      return isSignedIn() && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) && getUserRole() == 'CLIENTE';
+    }
+
+    // -------------------------------------------------------------
+    // COLEÇÃO: usuarios
+    // -------------------------------------------------------------
+    match /usuarios/{userId} {
+      // Qualquer usuário autenticado pode ler e escrever seu próprio perfil
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      
+      // Administradores têm controle total
+      allow create, update, delete: if isAdmin();
+      
+      // Técnicos podem visualizar perfis de usuários (para exibir nomes em chamados)
+      allow read: if isTecnico() || isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // COLEÇÃO: chamados
+    // -------------------------------------------------------------
+    match /chamados/{chamadoId} {
+      
+      // Leitura de chamados
+      allow read: if isSignedIn() && (
+        isAdmin() || 
+        (isCliente() && resource.data.cliente_id == request.auth.uid) ||
+        (isTecnico() && (resource.data.tecnico_id == request.auth.uid || resource.data.tecnico_id == null))
+      );
+
+      // Criação de chamados
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        (isCliente() && request.resource.data.cliente_id == request.auth.uid)
+      );
+
+      // Atualização de chamados
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        // Técnicos só podem atualizar status, técnico atribuído (autoatribuição) e a data de atualização
+        (isTecnico() && 
+          (resource.data.tecnico_id == request.auth.uid || resource.data.tecnico_id == null) &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'tecnico_id', 'data_atualizacao'])
+        )
+      );
+
+      // Exclusão de chamados (Apenas Admins)
+      allow delete: if isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // COLEÇÃO: historico_chamados
+    // -------------------------------------------------------------
+    match /historico_chamados/{historicoId} {
+      
+      // Permite ler histórico se for Admin, Técnico ou se for o Cliente dono do chamado associado
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        isTecnico() ||
+        (isCliente() && get(/databases/$(database)/documents/chamados/$(resource.data.chamado_id)).data.cliente_id == request.auth.uid)
+      );
+
+      // Permite criar histórico para auditoria
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        isTecnico() ||
+        (isCliente() && request.resource.data.usuario_id == request.auth.uid && 
+          get(/databases/$(database)/documents/chamados/$(request.resource.data.chamado_id)).data.cliente_id == request.auth.uid)
+      );
+
+      // Apenas Administradores podem atualizar ou excluir logs de auditoria
+      allow update, delete: if isAdmin();
+    }
+
+  }
+}

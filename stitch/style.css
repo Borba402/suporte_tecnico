@@ -243,9 +243,13 @@ ul { list-style: none; }
   align-items: center;
   gap: var(--space-3);
   border-bottom: 1px solid var(--outline-variant);
-  background: linear-gradient(135deg, var(--primary-container) 0%, var(--surface-container-high) 100%);
+  background: var(--surface-container-low);
   position: relative;
   overflow: hidden;
+}
+
+html.dark .nav-profile-card {
+  background: var(--surface-container);
 }
 
 .nav-profile-card::before {
@@ -254,7 +258,7 @@ ul { list-style: none; }
   top: -20px; right: -20px;
   width: 100px; height: 100px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.05);
+  background: rgba(29,107,243,0.06);
 }
 
 .nav-profile-avatar {
@@ -286,13 +290,11 @@ ul { list-style: none; }
 .nav-profile-name {
   font-size: 14px;
   font-weight: 700;
-  color: var(--on-primary-fixed);
+  color: var(--on-surface);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-html.dark .nav-profile-name { color: var(--on-surface); }
 
 .nav-profile-role {
   display: flex;
@@ -300,10 +302,8 @@ html.dark .nav-profile-name { color: var(--on-surface); }
   gap: 5px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--on-primary-fixed-variant);
+  color: var(--on-surface-variant);
 }
-
-html.dark .nav-profile-role { color: var(--on-surface-variant); }
 
 .role-dot {
   width: 6px;
@@ -547,7 +547,7 @@ html.dark .nav-profile-role { color: var(--on-surface-variant); }
 
 /* ─── WELCOME BANNER ─────────────────────────────────────── */
 .welcome-banner {
-  background: linear-gradient(135deg, var(--primary-container) 0%, var(--surface-container-high) 100%);
+  background: linear-gradient(135deg, var(--secondary-fixed) 0%, var(--surface-container-low) 100%);
   border: 1px solid var(--outline-variant);
   border-radius: var(--rounded-xl);
   padding: var(--space-6);
@@ -569,25 +569,21 @@ html.dark .welcome-banner {
   right: -40px; top: -40px;
   width: 180px; height: 180px;
   border-radius: 50%;
-  background: rgba(29,107,243,0.08);
+  background: rgba(29,107,243,0.1);
   pointer-events: none;
 }
 
 .welcome-text h2 {
   font-size: 20px;
   font-weight: 700;
-  color: var(--on-primary-fixed);
+  color: var(--on-surface);
   margin-bottom: 4px;
 }
 
-html.dark .welcome-text h2 { color: var(--on-surface); }
-
 .welcome-text p {
   font-size: 13px;
-  color: var(--on-primary-fixed-variant);
+  color: var(--on-surface-variant);
 }
-
-html.dark .welcome-text p { color: var(--on-surface-variant); }
 
 /* ─── KPI GRID ───────────────────────────────────────────── */
 .kpi-grid {

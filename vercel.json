@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/stitch/index.html" },
+    { "source": "/(.*)", "destination": "/stitch/$1" }
+  ]
+}

@@ -1,7 +1,7 @@
 import { 
   signInWithEmailAndPassword, 
   signOut 
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { 
   collection, 
   doc, 
@@ -15,7 +15,7 @@ import {
   or,
   runTransaction,
   serverTimestamp 
-} from "firebase/firestore";
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { auth, db } from "./firebaseConfig.js";
 
 /**
@@ -177,7 +177,7 @@ export async function atualizarChamado(chamadoId, novoStatus, tecnicoId, acaoDes
  * Consulta estruturada de chamados com base na Role (Perfil) do usuário no Firestore.
  * Implica em controle granular onde:
  * - CLIENTE vê apenas os seus chamados.
- * - TECNICO vê os chamados atribuídos a ele ou sem técnico atribuído (tecnico_id == null).
+ * - TECNICO vê os chamados atribuídos a eles ou sem técnico atribuído (tecnico_id == null).
  * - ADMIN vê todos os chamados cadastrados.
  * 
  * @param {string} role Perfil do usuário logado ('ADMIN' | 'TECNICO' | 'CLIENTE')

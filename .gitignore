@@ -70,3 +70,5 @@ $RECYCLE.BIN/
 # ---- Cobertura de Testes ----
 coverage/
 .nyc_output/
+
+.vercel
